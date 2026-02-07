@@ -6,13 +6,20 @@ class TypeWriterComponent extends HTMLElement {
     connectedCallback() {
         const tagType = this.getAttribute('con') || 'p';
         const userStyle = this.getAttribute('style') || "";
+        const userClass = this.getAttribute('class') || ""; 
+        const userId = this.getAttribute('id') || "";   
         
         const customSpeed = parseInt(this.getAttribute('speed')) || 100;
+        const startDelay = parseInt(this.getAttribute('delay')) || 0;
         
         const fullContent = this.innerHTML.trim();
         this.innerHTML = ''; 
 
         const element = document.createElement(tagType);
+        
+        if (userClass) element.className = userClass;
+        if (userId) element.id = userId;
+        
         element.setAttribute('style', userStyle); 
         
         if (!element.style.color) {
@@ -40,7 +47,7 @@ class TypeWriterComponent extends HTMLElement {
             }
         };
 
-        type();
+        setTimeout(type, startDelay);
     }
 }
 
@@ -54,13 +61,13 @@ class CopyCodeSimple extends HTMLElement {
 
     connectedCallback() {
         const codeText = this.innerHTML.trim();
-        const bgColor = this.getAttribute('bg') || '#1e293b'; 
-        const textColor = this.getAttribute('color') || '#f8fafc'; 
+        const bgColor = this.getAttribute('bg') || '#1e293b'; // ডিফল্ট ডার্ক ব্যাকগ্রাউন্ড
+        const textColor = this.getAttribute('color') || '#f8fafc'; // ডিফল্ট সাদা টেক্সট
 
         this.shadowRoot.innerHTML = `
         <style>
             :host {
-                display: block; 
+                display: block; /* এটি অটোমেটিক নতুন লাইন তৈরি করবে */
                 margin: 15px 0;
             }
             .code-box {
@@ -70,9 +77,9 @@ class CopyCodeSimple extends HTMLElement {
                 border-radius: 10px;
                 font-family: 'Courier New', Courier, monospace;
                 font-size: 14px;
-                border-left: 5px solid #4F46E5;
+                border-left: 5px solid #4F46E5; /* পাশে একটা সুন্দর বর্ডার */
                 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                white-space: pre-wrap;
+                white-space: pre-wrap; /* কোডের স্পেস ঠিক রাখবে */
                 word-break: break-all;
             }
         </style>
